@@ -686,7 +686,7 @@ class SourceGen(ExprSourceGen):
                 for expr in node.body:
                     self.visit(expr)
             else:
-                self.print("pass")
+                self.print(0)
 
 
         if node.orelse:
