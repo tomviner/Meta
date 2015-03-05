@@ -577,7 +577,7 @@ class SourceGen(ExprSourceGen):
     def visitAssign(self, node):
         targets = [visit_expr(target) for target in node.targets]
 
-        self.print('{targets} = {value:node}\n', targets=' = '.join(targets), value=node.value)
+        self.print('{targets}={value:node}\n', targets='='.join(targets), value=node.value)
 
     def visitAugAssign(self, node):
         self.print('{target:node} {op:node}= {value:node}\n', **node.__dict__)
@@ -702,7 +702,7 @@ class SourceGen(ExprSourceGen):
         self.print('{:node}\n', node.value)
 
     visitBreak = simple_string('break\n')
-    visitPass = simple_string('pass\n')
+    visitPass = simple_string('0\n')
     visitContinue = simple_string('continue\n')
 
     def visitReturn(self, node):
@@ -717,7 +717,7 @@ class SourceGen(ExprSourceGen):
                 for stmnt in node.body:
                     self.visit(stmnt)
             else:
-                self.print('pass')
+                self.print('0')
 
         for hndlr in node.handlers:
             self.visit(hndlr)
@@ -873,7 +873,7 @@ def dump_python_source(ast):
     '''
     gen = SourceGen()
     gen.visit(ast)
-    return gen.dumps()
+    return gen.dumps().strip()
 
 
 
